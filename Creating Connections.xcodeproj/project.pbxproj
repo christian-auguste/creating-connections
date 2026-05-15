@@ -19,6 +19,7 @@
 		5B981E762B96D74100F1FA60 /* Creating_ConnectionsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B981E752B96D74100F1FA60 /* Creating_ConnectionsUITests.swift */; };
 		5B981E782B96D74100F1FA60 /* Creating_ConnectionsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B981E772B96D74100F1FA60 /* Creating_ConnectionsUITestsLaunchTests.swift */; };
 		5BD37C2C2BBB938E002C7397 /* archimedean_spiral.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BD37C2B2BBB938E002C7397 /* archimedean_spiral.png */; };
+		5BCC00022BA02BE700B104EF /* SessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC00012BA02BE700B104EF /* SessionsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		5B981E752B96D74100F1FA60 /* Creating_ConnectionsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Creating_ConnectionsUITests.swift; sourceTree = "<group>"; };
 		5B981E772B96D74100F1FA60 /* Creating_ConnectionsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Creating_ConnectionsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5BD37C2B2BBB938E002C7397 /* archimedean_spiral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archimedean_spiral.png; sourceTree = "<group>"; };
+		5BCC00012BA02BE700B104EF /* SessionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				5B981E582B96D74000F1FA60 /* ViewController.swift */,
 				5BD37C2B2BBB938E002C7397 /* archimedean_spiral.png */,
 				5B3C73892BA02BE700B104EF /* CustomCanvasView.swift */,
+				5BCC00012BA02BE700B104EF /* SessionsViewController.swift */,
 				5B946E422BA2A1FB001076F5 /* spiral.json */,
 				5B981E5A2B96D74000F1FA60 /* Main.storyboard */,
 				5B981E5D2B96D74100F1FA60 /* Assets.xcassets */,
@@ -273,6 +276,7 @@
 				5B981E552B96D74000F1FA60 /* AppDelegate.swift in Sources */,
 				5B981E572B96D74000F1FA60 /* SceneDelegate.swift in Sources */,
 				5B3C738A2BA02BE700B104EF /* CustomCanvasView.swift in Sources */,
+				5BCC00022BA02BE700B104EF /* SessionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +458,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7FDMA4P7T6;
+				DEVELOPMENT_TEAM = M92TX7CPV5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Creating Connections/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
@@ -469,7 +473,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.creating-connections.Creating-Connections";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.creating-connections.archimedes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -484,7 +488,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7FDMA4P7T6;
+				DEVELOPMENT_TEAM = M92TX7CPV5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Creating Connections/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
@@ -499,7 +503,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.creating-connections.Creating-Connections";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.creating-connections.archimedes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
