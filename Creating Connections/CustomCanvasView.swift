@@ -100,6 +100,7 @@ class CustomCanvasView: PKCanvasView {
     // touch begin hook
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        viewController?.participantNameField.resignFirstResponder()
 
         print("~~~~~~~~~~~~~~~~~ \(viewController!.i) ~~~~~~~~~~~~~~~~~~~")
         print("------- Max Possible Force: \(touches.first!.maximumPossibleForce) -------")

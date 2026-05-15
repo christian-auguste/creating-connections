@@ -8,7 +8,7 @@
 import UIKit
 import PencilKit
 
-class ViewController: UIViewController, PKCanvasViewDelegate {
+class ViewController: UIViewController, PKCanvasViewDelegate, UITextFieldDelegate {
     // app variables
     public var log = ""
     public var i = 1
@@ -106,6 +106,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         loadSpiralCoords()
 
         // participant name field lives in the nav bar — no canvas overlap in any orientation
+        participantNameField.delegate = self
         navigationItem.titleView = participantNameField
 
         // add content to view
@@ -211,6 +212,11 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             SPIRAL_COORDS[i][0] *= factor;
             SPIRAL_COORDS[i][1] *= factor;
         }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
     // clear canvas and reset labels
