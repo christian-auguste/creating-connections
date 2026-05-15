@@ -1,2 +1,13 @@
-*.xcuserstate
+# macOS
 .DS_Store
+
+# Xcode per-user data (editor state, breakpoints, scheme ordering)
+xcuserdata/
+*.xcuserstate
+
+# Build artifacts
+DerivedData/
+
+# Distribution
+*.ipa
+*.dSYM.zip
