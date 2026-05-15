@@ -13,24 +13,37 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     public var log = ""
     public var i = 1
     private var debug = false
-    
+
     // init spiral info
     private let spiral = UIImageView(image: UIImage(named: "archimedean_spiral.png"))
     public var SPIRAL_COORDS : [[Double]] = []
     public var SPIRAL_ORIGIN = CGPoint(x: 0, y: 0)
-    
+
     // struct to deserialize json
     private struct Coordinates: Decodable {
         let coords: [[Double]]
     }
-    
+
     // custom canvas view to cooperate with touch hooks
     private lazy var canvasView: CustomCanvasView = {
         let canvas = CustomCanvasView()
         canvas.drawingPolicy = .anyInput
         return canvas
     }()
-    
+
+    // participant name field (placed in nav bar title view)
+    public let participantNameField: UITextField = {
+        let field = UITextField()
+        field.placeholder = "Participant name"
+        field.borderStyle = .none
+        field.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        field.autocorrectionType = .no
+        field.autocapitalizationType = .words
+        field.textAlignment = .center
+        field.frame = CGRect(x: 0, y: 0, width: 320, height: 34)
+        return field
+    }()
+
     // info labels
     public let infoLabel: UILabel = {
         let label = UILabel()
@@ -39,7 +52,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         label.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         return label
     }()
-    
+
     public let infoLabel1: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -47,7 +60,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         label.font = UIFont.systemFont(ofSize: 23, weight: .regular)
         return label
     }()
-    
+
     public let infoLabel2: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -55,7 +68,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         label.font = UIFont.systemFont(ofSize: 23, weight: .regular)
         return label
     }()
-    
+
     public let infoLabel3: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -63,7 +76,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         label.font = UIFont.systemFont(ofSize: 23, weight: .regular)
         return label
     }()
-    
+
     // done button
     private lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
@@ -72,7 +85,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         button.addTarget(self, action: #selector(done(_:)), for: .touchUpInside)
         return button
     }()
-    
+
     // debug button
     private lazy var debugButton: UIButton = {
         let button = UIButton(type: .system)
@@ -88,26 +101,25 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
 
         // force light mode so canvas stays white and spiral stays visible
         overrideUserInterfaceStyle = .light
-        
+
         // load spiral coordinates
         loadSpiralCoords()
-        
+
+        // participant name field lives in the nav bar — no canvas overlap in any orientation
+        navigationItem.titleView = participantNameField
+
         // add content to view
         view.addSubview(canvasView)
-        //view.addSubview(infoLabel)
-        //view.addSubview(infoLabel1)
-        //view.addSubview(infoLabel2)
-        //view.addSubview(infoLabel3)
         view.addSubview(doneButton)
         view.addSubview(debugButton)
         view.addSubview(spiral)
-        
-        // center spiral but shift down to account for info labels at top
+
+        // center spiral
         spiral.translatesAutoresizingMaskIntoConstraints = false
         spiral.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         spiral.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
-        
-        // position button at bottom
+
+        // position done button at bottom
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -116,11 +128,11 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             doneButton.heightAnchor.constraint(equalToConstant: 44)
         ])
         debugButton.translatesAutoresizingMaskIntoConstraints = false
-        
+
         // button colors
         doneButton.setTitleColor(.black, for: .normal)
         debugButton.setTitleColor(.white, for: .normal) // hide
-        
+
         // settings for canvas
         canvasView.viewController = self
         canvasView.delegate = self
@@ -130,7 +142,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     // called when bounds change for view (such as orientation flip)
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         // get coordinate location of spiral on the screen
         let spiralFrame = spiral.superview?.convert(spiral.frame, to: nil) ?? .zero
         SPIRAL_ORIGIN = CGPoint(x: spiralFrame.minX, y: spiralFrame.minY)
@@ -139,24 +151,24 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
         print("Top Right: \(CGPoint(x: spiralFrame.maxX, y: spiralFrame.minY))")
         print("Bottom Left: \(CGPoint(x: spiralFrame.minX, y: spiralFrame.maxY))")
         print("Bottom Right: \(CGPoint(x: spiralFrame.maxX, y: spiralFrame.maxY))\n")
-        
+
         // set the canvas frame bounds
         canvasView.frame = view.bounds
-        
+
         // set the label text and positions
         infoLabel.text = "Creating Connections"
         infoLabel.frame = CGRect(x: 0, y: 40, width: view.bounds.width, height: 50)
-        
+
         infoLabel1.text = "Location:"
         infoLabel1.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: 50)
-        
+
         infoLabel2.text = "Pressure:"
         infoLabel2.frame = CGRect(x: 0, y: 120, width: view.bounds.width, height: 50)
-        
+
         infoLabel3.text = "Angle:"
         infoLabel3.frame = CGRect(x: 0, y: 160, width: view.bounds.width, height: 50)
     }
-    
+
     // load spiral coordinate data from spiral.json
     func loadSpiralCoords() {
         do {
@@ -171,21 +183,20 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             print("error: \(error)")
         }
     }
-    
+
     // debug function to draw out spiral coordinates
-    // ensure a perfect match to png image
     func drawSpiralCoords() {
         for coord in SPIRAL_COORDS {
             let x = SPIRAL_ORIGIN.x + CGFloat(coord[0])
             let y = SPIRAL_ORIGIN.y + CGFloat(coord[1])
-                
+
             let dotView = UIView(frame: CGRect(x: x, y: y, width: 2, height: 2))
             dotView.backgroundColor = .black
-                
+
             view.addSubview(dotView)
         }
     }
-    
+
     // move all points in spiral coordinate by (x, y)
     func moveSpiralCoords(x : Double, y : Double) {
         for (i, _) in SPIRAL_COORDS.enumerated() {
@@ -193,7 +204,7 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             SPIRAL_COORDS[i][1] += y;
         }
     }
-    
+
     // scale spiral coordinates by factor
     func resizeSpiralCoords(factor : Double) {
         for (i, _) in SPIRAL_COORDS.enumerated() {
@@ -201,25 +212,47 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
             SPIRAL_COORDS[i][1] *= factor;
         }
     }
-    
+
     // clear canvas and reset labels
     @objc func clearCanvas(_ sender: UIButton) {
         canvasView.drawing = PKDrawing()
-        
+
         infoLabel.text = "Creating Connections"
         infoLabel1.text = "Location:"
         infoLabel2.text = "Pressure:"
         infoLabel3.text = "Angle:"
     }
-    
-    // done - copy to clipboard
+
+    // done - save CSV to Documents and copy to clipboard
     @objc func done(_ sender: UIButton) {
-        UIPasteboard.general.string = log
+        let name = participantNameField.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        let participantName = name.isEmpty ? "unknown" : name
+        saveSession(participantName: participantName)
+    }
+
+    private func saveSession(participantName: String) {
+        let header = "participant,trial,x,y,distance,pressure,alt_angle,azimuth_angle,timestamp\n"
+        let csvData = header + log
+
+        // copy to clipboard as fallback
+        UIPasteboard.general.string = csvData
+
+        // save to Documents directory
+        let df = DateFormatter()
+        df.dateFormat = "yyyyMMdd-HHmmss"
+        let dateString = df.string(from: Date())
+        let safeName = participantName.replacingOccurrences(of: "/", with: "-")
+        let fileName = "\(safeName)_\(dateString).csv"
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = dir.appendingPathComponent(fileName)
+            try? csvData.write(to: fileURL, atomically: true, encoding: .utf8)
+        }
+
         log = ""
         i = 1
         clearCanvas(doneButton)
     }
-    
+
     // toggle debug stats
     @objc func toggleDebug(_ sender: UIButton) {
         if (debug) {
