@@ -85,6 +85,9 @@ class ViewController: UIViewController, PKCanvasViewDelegate {
     // called after the controller's view is loaded into memory
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // force light mode so canvas stays white and spiral stays visible
+        overrideUserInterfaceStyle = .light
         
         // load spiral coordinates
         loadSpiralCoords()
