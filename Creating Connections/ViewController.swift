@@ -99,9 +99,6 @@ class ViewController: UIViewController, PKCanvasViewDelegate, UITextFieldDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // force light mode so canvas stays white and spiral stays visible
-        overrideUserInterfaceStyle = .light
-
         // load spiral coordinates
         loadSpiralCoords()
 
